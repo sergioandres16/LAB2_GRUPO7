@@ -14,9 +14,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.List;
+import java.util.Optional;
 
 @Controller
-@RequestMapping("/marca")
+@RequestMapping("/marcas")
 public class MarcaController {
 
     @Autowired
@@ -25,16 +26,16 @@ public class MarcaController {
     @Autowired
     TrabajadorRepository trabajadorRepository;
 
-    @GetMapping("/listar")
+    @GetMapping("/lista")
     public String listarMarca(Model model){
-        List<Marca> lisOfMarcas = marcaRepository.findAll();
-        model.addAttribute("lisOfMarcas", lisOfMarcas);
-        return "marca/lista";
+        List<Marca> marcaList = marcaRepository.findAll();
+        model.addAttribute("lista", marcaList);
+        return "marcas/list";
     }
 
     @GetMapping("/crear")
-    public String nuevaMarca(){
-        return "marca/nuevaMarca";
+    public String crearMarca(){
+        return "marcas/create";
     }
 
     @GetMapping("/editar")
@@ -44,18 +45,19 @@ public class MarcaController {
             Marca marca = marcaOptional.get();
             model.addAttribute("marca", marca);
 
-            List<Trabajador> trabajadorList = trabajadorRepository.findAllByIdmarca(id);
-            model.addAttribute("trabajadorList", trabajadorList);
-            return "marca/editarMarca";
+            List<Trabajador> list = trabajadorRepository.buscarPorSede(id);
+            model.addAttribute("trabajadores", list);
+            model.addAttribute("marcas", marca);
+            return "marcas/edit";
         } else {
-            return "redirect:/marca/listar";
+            return "redirect:/marcas/lista";
         }
     }
 
     @PostMapping("/guardar")
     public String guardarMarca(Marca marca, RedirectAttributes attributes){
         marcaRepository.save(marca);
-        return "redirect:/marca/listar";
+        return "redirect:/marcas/lista";
     }
 
     @GetMapping("/borrar")
@@ -65,7 +67,7 @@ public class MarcaController {
             Marca marca = marcaOptional.get();
             marcaRepository.deleteById(id);
         }
-        return "redirect:/marca/listar";
+        return "redirect:/marcas/lista";
     }
 
 }

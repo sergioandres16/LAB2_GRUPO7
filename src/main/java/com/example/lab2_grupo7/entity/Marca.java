@@ -3,27 +3,29 @@ package com.example.lab2_grupo7.entity;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "marca")
+@Table(name = "marcas")
 public class Marca {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int idmarca;
-    private String nombremarca;
+    @Column(name = "idmarca", nullable = false)
+    private Integer id;
 
-    public int getIdmarca() {
-        return idmarca;
+    @Column(name = "nombre", length = 45)
+    private String nombre;
+
+    public Integer getId() {
+        return id;
     }
 
-    public void setIdmarca(int idmarca) {
-        this.idmarca = idmarca;
+    public void setId(Integer id) {
+        this.id = id;
     }
 
-    public String getNombremarca() {
-        return nombremarca;
+    public String getNombre() {
+        return nombre;
     }
 
-    public void setNombremarca(String nombremarca) {
-        this.nombremarca = nombremarca;
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
     }
 }

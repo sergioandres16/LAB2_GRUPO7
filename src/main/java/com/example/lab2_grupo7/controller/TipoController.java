@@ -54,6 +54,11 @@ public class TipoController {
 
     @PostMapping("/guardar")
     public String guardarTipo(Tipo tipo, RedirectAttributes attributes){
+        if (tipo.getId() == null) {
+            attributes.addFlashAttribute("msg", "Tipo de Estado creado exitosamente.");
+        } else {
+            attributes.addFlashAttribute("msg", "Tipo de Estado editado exitosamente.");
+        }
         tipoRepository.save(tipo);
         return "redirect:/tipos/lista";
     }
@@ -64,6 +69,7 @@ public class TipoController {
         if(tipoOptional.isPresent()){
             Tipo tipo = tipoOptional.get();
             tipoRepository.deleteById(id);
+            attributes.addFlashAttribute("msg", "Tipo de Equipo borrado exitosamente.");
         }
         return "redirect:/tipos/lista";
     }

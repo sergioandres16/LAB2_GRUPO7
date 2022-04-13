@@ -56,6 +56,11 @@ public class MarcaController {
 
     @PostMapping("/guardar")
     public String guardarMarca(Marca marca, RedirectAttributes attributes){
+        if (marca.getId() == null) {
+            attributes.addFlashAttribute("msg", "Marca creada exitosamente.");
+        } else {
+            attributes.addFlashAttribute("msg", "Marca editada exitosamente.");
+        }
         marcaRepository.save(marca);
         return "redirect:/marcas/lista";
     }
@@ -66,6 +71,8 @@ public class MarcaController {
         if(marcaOptional.isPresent()){
             Marca marca = marcaOptional.get();
             marcaRepository.deleteById(id);
+            attributes.addFlashAttribute("msg", "Marca borrada exitosamente.");
+
         }
         return "redirect:/marcas/lista";
     }

@@ -22,6 +22,9 @@
     <div class="col-md-4 offset-md-4">
         <h2 class="pb-2 text-center border-bottom">Lista de Tipos</h2>
         <a class="btn btn-primary mt-4 mb-4" th:href="@{/tipos/crear}">Nuevo Tipo</a>
+        <div th:if="${msg != null}" th:text="${msg}" class="alert alert-warning" role="alert">
+        </div>
+
         <table  class="table">
             <thead>
             <tr>

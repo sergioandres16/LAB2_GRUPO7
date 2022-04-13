@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.com">
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>lista</title>
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
+              integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3"
+              crossorigin="anonymous">
+    </head>
+    <body>
+        <div class="container mt-3">
+            <div class="col-md-4 offset-md-4">
+                <h2 class="pb-2 text-center border-bottom">Lista de Invetario</h2>
+                <a class="btn btn-primary mt-4 mb-4" th:href="@{/inventario/nuevo}">Nuevo Inventario</a>
+                <!--
+                <div th:if="${msg != null}" th:text="${msg}" class="alert alert-danger" role="alert">
+                </div>
+                -->
+                <table th:if="${#lists.size(listaInventario)>0}" class="table">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Nombre de inventario</th>
+                            <th>Numero de Serie</th>
+                            <th>estado</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr th:each="inventario,info : ${listaInventario}">
+                            <td th:text="${info.index + 1}"></td>
+                            <td th:text="${inventario.nombre}"></td>
+                            <td th:text="${inventario.numeroserie}"></td>
+                            <td><a class="btn btn-primary"
+                                   th:href="@{'/inventario/edit?id='+${inventario.idinventario}}">Editar</a></td>
+                            <td><a class="btn btn-danger"
+                                   th:href="@{'/inventario/delete?id='+${inventario.idinventario}}">Borrar</a></td>
+                        </tr>
+
+                    </tbody>
+
+                </table>
+                <div th:unless="${#lists.size(listaInventario)>0}" class="alert alert-warning" role="alert">
+                    No se encontraron elementos en el Inventario
+                </div>
+
+
+            </div>
+        </div>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
+                integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
+                crossorigin="anonymous"></script>
+
+    </body>
+</html>

@@ -40,7 +40,12 @@ public class TrabajadorController {
     }
 
     @PostMapping("/guardar")
-    public String guardarTrabajador(Trabajador trabajador){
+    public String guardarTrabajador(Trabajador trabajador, RedirectAttributes attributes, @RequestParam("action") int action){
+        if (action == 1){
+            attributes.addFlashAttribute("msg", "Trabajador creado exitosamente");
+        }else if (action == 2){
+            attributes.addFlashAttribute("msg", "Trabajador editado exitosamente");
+        }
         trabajadorRepository.save(trabajador);
         return "redirect:/trabajador/lista";
     }
@@ -67,6 +72,6 @@ public class TrabajadorController {
             trabajadorRepository.deleteById(id);
             attributes.addFlashAttribute("msg", "Trabajador eliminado exitosamente");
         }
-        return "redirect:/shipper/list";
+        return "redirect:/trabajador/lista";
     }
 }

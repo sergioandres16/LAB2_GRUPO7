@@ -41,9 +41,9 @@ public class SedeController {
     @PostMapping("/guardar")
     public String guardarSede(Sede sede, RedirectAttributes attributes, @RequestParam("action") int action){
         if (action == 1){
-            attributes.addFlashAttribute("msg", "Sede eliminada exitosamente");
+            attributes.addFlashAttribute("msg", "Sede creada exitosamente");
         }else if (action == 2){
-            attributes.addFlashAttribute("msg", "Sede eliminada exitosamente");
+            attributes.addFlashAttribute("msg", "Sede editada exitosamente");
         }
         sedeRepository.save(sede);
         return "redirect:/sedes/lista";
@@ -72,7 +72,7 @@ public class SedeController {
             sedeRepository.deleteById(id);
             attributes.addFlashAttribute("msg", "Sede eliminada exitosamente");
         }
-        return "redirect:/shipper/list";
+        return "redirect:/sedes/lista";
     }
 
 }

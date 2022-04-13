@@ -11,15 +11,6 @@
 <body>
 <main>
     <div class="container px-4 py-5">
-        <nav class="navbar navbar-expand-lg navbar-light bg-light">
-            <div class="collapse navbar-collapse">
-                <a class="navbar-brand" href="/inventario/lista">Inventario</a>
-                <a class="navbar-brand" href="/marcas/lista">Marcas</a>
-                <a class="navbar-brand" href="/tipos/lista">Tipos de Equipo</a>
-                <a class="navbar-brand" href="/sedes/lista">Sedes</a>
-                <a class="navbar-brand" href="/trabajadores/lista">Trabajadores</a>
-            </div>
-        </nav>
         <h1 class="pb-2 mb-4 border-bottom">Editar Tipo</h1>
         <form method="post" th:action="@{'/tipos/guardar'}" class="col-4" >
             <input value="2" class="form-control" type="text" name="action" hidden>

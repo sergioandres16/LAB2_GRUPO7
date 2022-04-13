@@ -63,14 +63,17 @@ public class SedeController {
         }
     }
 
-    //Falta modificar por que hay trabajadores dentro de ellas, primero se deberia eliminar los trabajadores
     @GetMapping("/borrar")
     public String borrarSede(RedirectAttributes attributes, @RequestParam("id") int id){
         Optional<Sede> optionalSede = sedeRepository.findById(id);
-
         if (optionalSede.isPresent()) {
-            sedeRepository.deleteById(id);
-            attributes.addFlashAttribute("msg", "Sede eliminada exitosamente");
+            List<Trabajador> listaTrabajadoresSede = trabajadorRepository.buscarPorSede(id);
+            if (listaTrabajadoresSede.isEmpty()){
+                sedeRepository.deleteById(id);
+                attributes.addFlashAttribute("msg", "Sede eliminada exitosamente");
+            }else{
+                attributes.addFlashAttribute("msg", "No se puede eliminar la sede por que aun hay trabajadores en ella");
+            }
         }
         return "redirect:/sedes/lista";
     }

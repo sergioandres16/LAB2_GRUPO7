@@ -9,10 +9,18 @@
           crossorigin="anonymous">
 </head>
 <body>
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="collapse navbar-collapse">
+        <!-- Con respecto al enlace de la opcion proyectos se dirigira hacia el listado de trabajadores ya que no establecio la creacion de dicha vista -->
+        <a class="navbar-brand" href="/trabajadores/lista">Proyectos</a>
+        <a class="navbar-brand" href="/trabajadores/lista">Trabajadores</a>
+        <a class="navbar-brand" href="/sedes/lista">Sedes</a>
+    </div>
+</nav>
 <main>
     <div class="container px-4 py-5">
         <h1 class="pb-2 mb-4 border-bottom">Crear Trabajador</h1>
-        <form method="post" th:action="@{'/trabajador/guardar'}" class="col-4" >
+        <form method="post" th:action="@{'/trabajadores/guardar'}" class="col-4" >
             <input value="1" class="form-control" type="text" name="action" hidden>
             <div class="mb-3">
                 <label class="form-label">DNI del trabajador</label>
@@ -38,7 +46,7 @@
                             th:text="${sedes.nombreSede} "></option>
                 </select>
             </div>
-            <a th:href="@{'/trabajador/lista'}" class="btn btn-danger">Cancelar</a>
+            <a th:href="@{'/trabajadores/lista'}" class="btn btn-danger">Cancelar</a>
             <button type="submit" class="btn btn-primary">Registrar</button>
         </form>
     </div>

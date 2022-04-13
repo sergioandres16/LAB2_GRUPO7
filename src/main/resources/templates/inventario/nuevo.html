@@ -10,6 +10,14 @@
     </head>
     <body>
         <main>
+            <nav class="navbar navbar-expand navbar-light bg-light">
+                <div class="collapse navbar-collapse">
+                    <a class="navbar-brand" href="#">Proyectos</a>
+                    <a class="navbar-brand" href="/inventario/lista">Inventario</a>
+                    <a class="navbar-brand" href="/sedes/lista">Sedes</a>
+                </div>
+            </nav>
+
             <div class="container px-4 py-5">
                 <h1 class="pb-2 mb-4 border-bottom">Nuevo Inventario</h1>
                 <form method="post" th:action="@{'/inventario/save'}" class="col-4">
@@ -21,17 +29,35 @@
                         <label class="form-label">Numero de Serie</label>
                         <input class="form-control" name="numeroserie">
                     </div>
-                    <!--
+
                     <div class="mb-3">
                         <label class="form-label">Sede</label>
-                        <select class="form-select" name="regionid">
-                            <option th:each="region : ${listaRegion}" th:value="${region.regionid}" th:text="${region.regiondescription}"></option>
+                        <select class="form-select" name="idsede">
+                            <option th:each="sede : ${listaSede}" th:value="${sede.id}" th:text="${sede.nombreSede}"></option>
                         </select>
                     </div>
-                     -->
+
+                    <div class="mb-3">
+                        <label class="form-label">Marca</label>
+                        <select class="form-select" name="idmarca">
+                            <option th:each="marca : ${listaMarca}" th:value="${marca.id}" th:text="${marca.nombre}"></option>
+                        </select>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">Tipo de Equipo</label>
+                        <select class="form-select" name="idtipo">
+                            <option th:each="tipo : ${listaTipo}" th:value="${tipo.id}" th:text="${tipo.nombre}"></option>
+                        </select>
+                    </div>
+
                     <div class="mb-3">
                         <label class="form-label">Estado</label>
-                        <input class="form-control" name="estado">
+                        <select class="form-select" name="estado">
+                            <option value="Almacen">Almacen</option>
+                            <option value="Pedido">Pedido</option>
+                            <option value="Vendido">Vendido</option>
+                        </select>
                     </div>
 
                     <a th:href="@{'/inventario/lista'}" class="btn btn-danger">Cancelar</a>

@@ -1,7 +1,13 @@
 package com.example.lab2_grupo7.controller;
 
 import com.example.lab2_grupo7.entity.Inventario;
+import com.example.lab2_grupo7.entity.Marca;
+import com.example.lab2_grupo7.entity.Sede;
+import com.example.lab2_grupo7.entity.Tipo;
 import com.example.lab2_grupo7.repository.InventarioRepository;
+import com.example.lab2_grupo7.repository.MarcaRepository;
+import com.example.lab2_grupo7.repository.SedeRepository;
+import com.example.lab2_grupo7.repository.TipoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
@@ -12,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import javax.persistence.criteria.CriteriaBuilder;
 import java.util.List;
 import java.util.Optional;
 
@@ -22,39 +29,68 @@ public class InventarioController {
     @Autowired
     InventarioRepository inventarioRepository;
 
-    @GetMapping(value={ "/lista",""})
-    public String listaInventario (Model model){
+    @Autowired
+    SedeRepository sedeRepository;
+
+    @Autowired
+    MarcaRepository marcaRepository;
+
+    @Autowired
+    TipoRepository tipoRepository;
+
+    @GetMapping(value = {"/lista", ""})
+    public String listaInventario(Model model) {
         List<Inventario> listaInventario = inventarioRepository.findAll();
-        model.addAttribute("listaInventario",listaInventario);
+        model.addAttribute("listaInventario", listaInventario);
         return "inventario/lista";
     }
 
     @GetMapping("/nuevo")
-    public String nuevoInventario(){
+    public String nuevoInventario(Model model) {
+        //Sede
+        List<Sede> listaSede = sedeRepository.findAll();
+        model.addAttribute("listaSede", listaSede);
+
+        //Marca
+        List<Marca> listaMarca = marcaRepository.findAll();
+        model.addAttribute("listaMarca", listaMarca);
+
+        //Tipo
+        List<Tipo> listaTipo = tipoRepository.findAll();
+        model.addAttribute("listaTipo", listaTipo);
+
         return "inventario/nuevo";
     }
 
     @PostMapping(value = {"/save"})
     public String guardarInventario(Inventario inventario, RedirectAttributes attr) {
-        Optional<Inventario> optionalInventario = inventarioRepository.findById(inventario.getIdinventario());
-        if (optionalInventario.isEmpty()){
-            inventarioRepository.save(inventario);
+        if (inventario.getIdinventario() == null) {
+            attr.addFlashAttribute("msg", "Inventario creado exitosamente.");
+        } else {
+            attr.addFlashAttribute("msg", "Inventario editado exitosamente.");
         }
-        //else { // error
-        //    attr.addFlashAttribute("msg", "hola");
-        //}
+        inventarioRepository.save(inventario);
         return "redirect:/inventario/lista";
     }
 
     @GetMapping(value = {"/edit"})
     public String editarInventario(Model model,
-                                 @RequestParam("id") Integer idinventario) {
+                                   @RequestParam("id") Integer idinventario) {
 
         Optional<Inventario> optionalInventario = inventarioRepository.findById(idinventario);
 
         if (optionalInventario.isPresent()) {
-            //List<Region> listaRegion = regionRepository.findAll();
-            //model.addAttribute("listaRegion", listaRegion);
+            //Sede
+            List<Sede> listaSede = sedeRepository.findAll();
+            model.addAttribute("listaSede", listaSede);
+
+            //Marca
+            List<Marca> listaMarca = marcaRepository.findAll();
+            model.addAttribute("listaMarca", listaMarca);
+
+            //Tipo
+            List<Tipo> listaTipo = tipoRepository.findAll();
+            model.addAttribute("listaTipo", listaTipo);
 
             Inventario inventario = optionalInventario.get();
             model.addAttribute("inventario", inventario);
@@ -65,11 +101,13 @@ public class InventarioController {
         }
     }
 
-    @PostMapping(value = {"/update"})
-    public String updateInventario(Inventario inventario) {
-        inventarioRepository.save(inventario);
-        return "redirect:/inventario";
+    @GetMapping({"/delete"})
+    public String borrarInventario(@RequestParam("id") Integer idinventario, RedirectAttributes attr) {
+        Optional<Inventario> optionalInventario = inventarioRepository.findById(idinventario);
+        if (optionalInventario.isPresent()) {
+            inventarioRepository.deleteById(idinventario);
+            attr.addFlashAttribute("msg", "Inventario borrado exitosamente.");
+        }
+        return "redirect:/inventario/lista";
     }
-
-
 }

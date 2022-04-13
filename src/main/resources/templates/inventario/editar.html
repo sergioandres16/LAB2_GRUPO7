@@ -10,9 +10,17 @@
     </head>
     <body>
         <main>
+            <nav class="navbar navbar-expand navbar-light bg-light">
+                <div class="collapse navbar-collapse">
+                    <a class="navbar-brand" href="#">Proyectos</a>
+                    <a class="navbar-brand" href="/inventario/lista">Inventario</a>
+                    <a class="navbar-brand" href="/sedes/lista">Sedes</a>
+                </div>
+            </nav>
+
             <div class="container px-4 py-5">
                 <h1 class="pb-2 mb-4 border-bottom">Editar Inventario</h1>
-                <form method="post" th:action="@{'/inventario/update'}" class="col-4" th:object="${inventario}">
+                <form method="post" th:action="@{'/inventario/save'}" class="col-4" th:object="${inventario}">
                      <input type="hidden" th:field="*{idinventario}">
                     <div class="mb-3">
                         <label class="form-label">Nombre del Inventario</label>
@@ -22,12 +30,40 @@
                         <label class="form-label">Numero de Serie</label>
                         <input class="form-control" type="text" th:field="*{numeroserie}">
                     </div>
-                    <!--
+                    <div class="mb-3">
+                        <label class="form-label">Sede</label>
+                        <select class="form-select" name="idsede">
+                            <option th:each="sede : ${listaSede}"
+                                    th:selected="${sede.id eq inventario.idsede}" th:value="${sede.id}"
+                                    th:text="${sede.nombreSede} "></option>
+                        </select>
+                    </div>
 
-                     -->
+                    <div class="mb-3">
+                        <label class="form-label">Marca</label>
+                        <select class="form-select" name="idmarca">
+                            <option th:each="marca : ${listaMarca}"
+                                    th:selected="${marca.id eq inventario.idmarca}" th:value="${marca.id}"
+                                    th:text="${marca.nombre} "></option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Tipo de Equipo</label>
+                        <select class="form-select" name="idtipo">
+                            <option th:each="tipo : ${listaTipo}"
+                                    th:selected="${tipo.id eq inventario.idtipo}" th:value="${tipo.id}"
+                                    th:text="${tipo.nombre} "></option>
+                        </select>
+                    </div>
+
                     <div class="mb-3">
                         <label class="form-label">Estado</label>
-                        <input class="form-control" type="text" th:field="*{estado}">
+                        <select class="form-select" name="estado">
+                            <option th:selected="${inventario.estado eq 'Almacen'}" value="Almacen">Almacen</option>
+                            <option th:selected="${inventario.estado eq 'Pedido'}" value="Pedido" >Pedido</option>
+                            <option th:selected="${inventario.estado eq 'Vendido'}" value="Vendido">Vendido</option>
+                        </select>
+
                     </div>
 
                     <a th:href="@{'/inventario/lista'}" class="btn btn-danger">Cancelar</a>

@@ -9,14 +9,24 @@
               crossorigin="anonymous">
     </head>
     <body>
+        <nav class="navbar navbar-expand navbar-light bg-light">
+            <div class="collapse navbar-collapse">
+                <a class="navbar-brand" href="/inventario/lista">Inventario</a>
+                <a class="navbar-brand" href="/marcas/lista">Marcas</a>
+                <a class="navbar-brand" href="/tipos/lista">Tipos de Equipo</a>
+                <a class="navbar-brand" href="/sedes/lista">Sedes</a>
+                <a class="navbar-brand" href="/trabajadores/lista">Trabajadores</a>
+            </div>
+        </nav>
+
         <div class="container mt-3">
             <div class="col-md-4 offset-md-4">
                 <h2 class="pb-2 text-center border-bottom">Lista de Invetario</h2>
                 <a class="btn btn-primary mt-4 mb-4" th:href="@{/inventario/nuevo}">Nuevo Inventario</a>
-                <!--
-                <div th:if="${msg != null}" th:text="${msg}" class="alert alert-danger" role="alert">
+
+                <div th:if="${msg != null}" th:text="${msg}" class="alert alert-warning" role="alert">
                 </div>
-                -->
+
                 <table th:if="${#lists.size(listaInventario)>0}" class="table">
                     <thead>
                         <tr>
